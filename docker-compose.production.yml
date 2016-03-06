@@ -10,6 +10,10 @@ services:
         networks:
             - frontend
 
+    lencrypt:
+        build: ./compose/lencrypt
+        volumes: ./compose//lencrpyt/le:/etc/letsencrypt
+
     example.com:
         expose:
             -   8080
