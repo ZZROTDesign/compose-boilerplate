@@ -1,0 +1,10 @@
+version: '2'
+services:
+    example.com:
+        build: ./compose/nginx
+        volumes:
+            - ./example.com/public:/var/www/html:ro
+        networks:
+            - frontend
+networks:
+    frontend:
