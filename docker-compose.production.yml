@@ -4,15 +4,19 @@ services:
         build: ./compose/proxy
         ports:
             -   "80:8080"
-            -   "443:8888"
+            -   "443:4433"
         volumes:
             - ./compose/proxy/vhosts:/etc/nginx/sites-enabled/:ro
+            - ./compose/lencrypt/well-known:/var/www/letsencrypt/
+            - ./compose/lencrypt/config:/certs
         networks:
             - frontend
 
     lencrypt:
         build: ./compose/lencrypt
-        volumes: ./compose//lencrpyt/le:/etc/letsencrypt
+        volumes:
+            - ./compose/lencrypt/well-known:/var/www/letsencrypt/
+            - ./compose/lencrypt/config:/etc/letsencrypt
 
     example.com:
         expose:
