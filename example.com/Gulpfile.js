@@ -6,7 +6,6 @@
 * is run on startup of the docker-developer container. Further tasks
 * can be run by using the command docker run dev gulp (task).
 *
-*
 */
 
 /*
@@ -58,13 +57,16 @@ var flatten = require('gulp-flatten');
 //Html Plugins
 var htmlmin = require('gulp-htmlmin');
 var sitemap = require('gulp-sitemap');
+var htmlbuild = require('gulp-htmlbuild');
 
 //Sass plugins
 var sass = require('gulp-sass');
 var minifycss = require('gulp-minify-css');
 var autoprefixer = require('gulp-autoprefixer');
+var sourcemaps = require('gulp-sourcemaps');
 var bourbon = require('node-bourbon').includePaths;
 var neat = require('node-neat').includePaths;
+
 
 //Image Plugins
 var imagemin = require('gulp-imagemin');
@@ -77,6 +79,9 @@ var uglify = require('gulp-uglify');
 var browserSync = require("browser-sync").create();
 
 
+/*
+* Extra Variables Go Here
+*/
 
 /*
 *
@@ -110,7 +115,7 @@ gulp.task('move-extras', function () {
 */
 gulp.task('html', function () {
     return gulp.src(paths.html.input)
-        .pipe(htmlmin({collapseWhitespace: true, removeComments: true}))
+        .pipe(htmlmin({collapseWhitespace: false, removeComments: false}))
         .pipe(gulp.dest(paths.html.output));
 });
 
@@ -118,10 +123,22 @@ gulp.task('html', function () {
 gulp.task('sitemap', function () {
     gulp.src(paths.html.input)
         .pipe(sitemap({
-            siteUrl: 'http://www.example.com'
+            siteUrl: 'http://www.seankilgarriff.com'
         }))
         .pipe(gulp.dest(paths.extras.output));
 });
+
+/* Task to edit html - currently adding browserSync*/
+gulp.task('htmlbuild', function () {
+    return gulp.src(paths.html.input)
+        .pipe(htmlbuild({
+            bs: function (block) {
+                block.end();
+            }
+        }))
+        .pipe(gulp.dest(paths.html.output));
+});
+
 
 /*
 *
@@ -130,12 +147,14 @@ gulp.task('sitemap', function () {
 */
 gulp.task('sass', function () {
     return gulp.src(paths.styles.input)
+        .pipe(sourcemaps.init())
         .pipe(sass({
             includePaths: [].concat(bourbon, neat)
         }))
         .pipe(autoprefixer())
         .pipe(rename({ suffix: '.min' }))
         .pipe(minifycss())
+        .pipe(sourcemaps.write('.'))
         .pipe(gulp.dest(paths.styles.output))
         .pipe(browserSync.reload({
             stream: true
@@ -198,8 +217,12 @@ gulp.task('watch', function () {
     //Watch JS files
     gulp.watch(paths.scripts.input, ['js']);
 
+    //Watch Images
+    gulp.watch(paths.images.input, ['imagemin']);
+
 });
 
-//Default Task. -
-//Add all the tasks you would like to run on startup of the container here.
-gulp.task('default', ['move', 'browser-sync', 'sass', 'imagemin', 'js', 'watch']);
+//Default Task. - Clean, then recompile every asset on startup, then start watch
+gulp.task('default', ['html', 'move', 'browser-sync', 'sass', 'imagemin', 'js', 'watch', 'sitemap']);
+
+gulp.task('production', ['htmlbuild', 'sitemap', 'move', 'sass', 'imagemin', 'js']);
