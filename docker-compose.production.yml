@@ -21,3 +21,7 @@ services:
     example.com:
         expose:
             -   8080
+            
+    staging.example.com:
+        expose:
+            -   8080
