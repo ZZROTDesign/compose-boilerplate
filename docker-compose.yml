@@ -1,14 +1,14 @@
 version: '2'
 services:
     example.com:
-        image: skilgarriff/alpine-nginx
+        image: zzrot/alpine-caddy
         volumes:
             - ./example.com/public:/var/www/html:ro
         networks:
             - frontend
 
     staging.example.com:
-        image: skilgarriff/alpine-nginx
+        image: zzrot/alpine-caddy
         volumes:
             - ./staging.example.com/public:/var/www/html:ro
 networks:
