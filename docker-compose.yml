@@ -14,8 +14,10 @@ services:
         networks:
             -	frontend
 
-    blog.zzrot.com:
-        images: zzrot/alpine-caddy
+    blog.example.com:
+        images: zzrot/alpine-ghost
+        volumes:
+            - ./blog.example.com/:/var/lib/ghost/
         networks:
             -	frontend
 
