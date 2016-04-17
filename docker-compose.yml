@@ -11,14 +11,13 @@ services:
         image: zzrot/alpine-caddy
         volumes:
             - ./staging.example.com/public:/var/www/html:rw
-				networks:
-					-	frontend
+        networks:
+            -	frontend
 
-		blog.zzrot.com:
+    blog.zzrot.com:
         images: zzrot/alpine-caddy
-				networks:
-					-	frontend
-
+        networks:
+            -	frontend
 
 networks:
     frontend:
