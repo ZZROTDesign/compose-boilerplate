@@ -3,13 +3,22 @@ services:
     example.com:
         image: zzrot/alpine-caddy
         volumes:
-            - ./example.com/public:/var/www/html:ro
+            - ./example.com/public:/var/www/html:rw
         networks:
             - frontend
 
     staging.example.com:
         image: zzrot/alpine-caddy
         volumes:
-            - ./staging.example.com/public:/var/www/html:ro
+            - ./staging.example.com/public:/var/www/html:rw
+				networks:
+					-	frontend
+
+		blog.zzrot.com:
+        images: zzrot/alpine-caddy
+				networks:
+					-	frontend
+
+
 networks:
     frontend:
