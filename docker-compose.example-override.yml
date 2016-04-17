@@ -1,3 +1,4 @@
+# Rename this file to docker-compose.override.yml
 version: '2'
 services:
     example.com:
