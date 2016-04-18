@@ -1,0 +1,5 @@
+#Save this file as .env
+#it should not be committed to git as it is for your local development environment
+
+#Your Docker-Machine Address for ghost (Add :2368)
+DOCKER_MACHINE_IP=xxx.xxx.xxx.xx:2368
