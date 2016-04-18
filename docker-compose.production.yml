@@ -9,19 +9,15 @@ services:
             - ./compose/proxy/vhosts:/etc/nginx/sites-enabled/:ro
             - ./compose/lencrypt/well-known:/var/www/letsencrypt/
             - ./compose/lencrypt/config:/certs
+        mem_limit: 1000000000
+        restart: always
         networks:
             - frontend
-
-    lencrypt:
-        build: ./compose/lencrypt
-        volumes:
-            - ./compose/lencrypt/well-known:/var/www/letsencrypt/
-            - ./compose/lencrypt/config:/etc/letsencrypt
 
     example.com:
         expose:
             -   8080
-            
+
     staging.example.com:
         expose:
             -   8080
