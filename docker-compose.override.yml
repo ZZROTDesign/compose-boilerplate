@@ -1,9 +1,14 @@
-# Rename this file to docker-compose.override.yml
 version: '2'
 services:
     example.com:
         ports:
+            -   81:8080
+    staging.example.com:
+        ports:
             -   80:8080
+    blog.example.com:
+        ports:
+            -   2368:2368
     developer:
         build: ./compose/developer
         container_name: dev
