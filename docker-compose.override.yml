@@ -10,11 +10,10 @@ services:
         ports:
             -   2368:2368
     developer:
-        build: ./compose/developer
+        image: zzrot/lazycat
         container_name: dev
         volumes:
-            -   ./example.com:/usr/src/app:rw
-        working_dir: /usr/src/app
+            -   ./staging.example.com:/usr/src/app:rw
         ports:
             -   3000:3000
             -   3001:3001
