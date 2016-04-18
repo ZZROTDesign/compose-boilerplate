@@ -1,0 +1,39 @@
+www.example.com, example.com {
+
+				proxy / example.com:80
+
+				header / {
+
+				}
+
+				gzip
+
+				tls example@example.com
+}
+
+staging.example.com {
+				proxy / staging.example.com:80
+
+				header / {
+
+				}
+
+				gzip
+
+				tls example@example.com
+}
+
+blog.example.com {
+				proxy / blog.example.com:2368 {
+					proxy_header Host {host}
+					proxy_header X-Real-IP {remote}
+					proxy_header X-Forwarded-Proto {scheme}
+				}
+
+				header / {
+				}
+
+				gzip
+
+				tls example@exmaple.com
+}
